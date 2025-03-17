@@ -1,7 +1,7 @@
 {
-  "name": "ExamplePlugin",
-  "author": "Anuke",
-  "main": "example.ExamplePlugin",
-  "description": "A plugin to demonstrate some basic features.",
+  "name": "openpvp",
+  "author": "grelylrz",
+  "main": "grely.Main",
+  "description": "idk",
   "version": 1.0
 }

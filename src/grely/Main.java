@@ -14,5 +14,6 @@ public class Main extends Plugin{
     @Override
     public void init(){
         PEvents.initEvents();
+        Log.info("Loaded openpvp plugin v@", Vars.mods.getMod("openpvp").meta.version);
     }
 }
