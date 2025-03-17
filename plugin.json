@@ -1,7 +1,7 @@
 {
   "name": "openpvp",
   "author": "grelylrz",
-  "main": "grely.Main",
+  "main": "main.java.esco.grely.Main",
   "description": "idk",
   "version": 1.0
 }
