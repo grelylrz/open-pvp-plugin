@@ -52,6 +52,12 @@ public class PEvents {
             Player player = e.player;
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
+            if(player.team() != Team.derelict) {
+                Groups.build.each(b->{
+                    if(b.team == player.team())
+                        b.kill();
+                });
+            }
         });
 
         Events.on(EventType.TapEvent.class, e -> {
@@ -81,6 +87,14 @@ public class PEvents {
             } else {
                 player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
             }
+        });
+        Events.run(EventType.Trigger.update, () -> {
+            Groups.player.each(p->{
+                if(p.team().core() == null) {
+                    p.team(Team.derelict);
+                    p.sendMessage("[scalret]Вы проиграли!");
+                }
+            });
         });
     }
 }
