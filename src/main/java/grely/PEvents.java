@@ -68,7 +68,7 @@ public class PEvents {
                 int by = (int) (b.y / 8);
                 int dx = bx - t.x;
                 int dy = by - t.y;
-                return dx * dx + dy * dy <= 20 * 20;
+                return dx * dx + dy * dy <= 40 * 40;
             });
             if(core == null) {
                 Team newTeam = getTeam();
