@@ -2,10 +2,8 @@ package main.java.grely;
 
 import arc.Events;
 import arc.graphics.Color;
-import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Timer;
-import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.game.EventType;
@@ -13,7 +11,6 @@ import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.world.Tile;
 import mindustry.gen.*;
-import mindustry.world.blocks.storage.CoreBlock;
 
 import static main.java.grely.PVars.*;
 import static main.java.grely.func.getCores;
@@ -31,7 +28,7 @@ public class PEvents {
             Timer.schedule(() -> {
                 Log.debug("Timer!");
                 if(e.team != Team.derelict && !e.breaking && e.tile.block() == Blocks.vault /*ТЗ*/){
-                    Call.effect(Fx.blockCrash, t.x*8, t.y*8, 1, Color.white);
+                    Call.effect(Fx.mine, t.x*8, t.y*8, 1, Color.red);
                     t.setNet(Blocks.coreShard, e.team, 1);
                     // Log.debug("Setted");
                 } else {
@@ -48,7 +45,7 @@ public class PEvents {
             if(!awaitingClick.contains(player))
                 awaitingClick.add(player);
             // Кому лень читать - тут пишу о том как войти в игру.
-            player.sendMessage("Вы зашли на сервер с режимом OpenPvP, для продолжения, нажмите на любой тайл, на нем появится ваше ядро. Если при нажатии этого не случилось, попробуйте кликнуть еще раз или перезайти на сервер, в случае, если это не поможет, пожалуйста, обратитесь в наш [blue]Discord[white] сервер.а");
+            player.sendMessage("[tan]Вы зашли на сервер с режимом OpenPvP, для продолжения, нажмите на любой тайл, на нем появится ваше ядро. Если при нажатии этого не случилось, попробуйте кликнуть еще раз или перезайти на сервер, в случае, если это не поможет, пожалуйста, обратитесь в наш [blue]Discord[tan]] сервер.");
         });
 
         Events.on(EventType.PlayerLeave.class, e -> {
@@ -75,10 +72,14 @@ public class PEvents {
             });
             if(core == null) {
                 Team newTeam = getTeam();
+                Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
                 t.setNet(Blocks.coreShard, newTeam, 1);
                 player.team(newTeam);
+                player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
                 if(awaitingClick.contains(player))
                     awaitingClick.remove(player);
+            } else {
+                player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
             }
         });
     }
