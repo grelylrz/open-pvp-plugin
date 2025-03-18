@@ -1,11 +1,13 @@
 package main.java.grely;
 
 import arc.struct.Seq;
+import arc.util.Timer;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import java.util.Random;
+import mindustry.gen.*;
 import static main.java.grely.PVars.*;
 
 public class func {
@@ -26,5 +28,28 @@ public class func {
             team = Team.all[te];
         }
         return team;
+    }
+    public static class leftPlayerData {
+        Player old;
+        Team team;
+
+        leftPlayerData(Player player, Team team) {
+            this.old = player;
+            this.team = team;
+        }
+        // auto-gen.
+        Player getOld() {
+            return old;
+        }
+        Team getTeam() {
+            return team;
+        }
+
+        void setOld(Player newOld) {
+            this.old = newOld;
+        }
+        void setTeam(Team newTeam) {
+            this.team = newTeam;
+        }
     }
 }

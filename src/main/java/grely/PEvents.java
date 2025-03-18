@@ -13,8 +13,7 @@ import mindustry.world.Tile;
 import mindustry.gen.*;
 
 import static main.java.grely.PVars.*;
-import static main.java.grely.func.getCores;
-import static main.java.grely.func.getTeam;
+import static main.java.grely.func.*;
 
 public class PEvents {
     public static void initEvents() {
@@ -40,7 +39,12 @@ public class PEvents {
         // Это уже конечное подключение после загрузки мира.
         Events.on(EventType.PlayerJoin.class, e -> {
             Player player = e.player;
-
+            leftPlayerData d = leftDatas.find(p->p.getOld().uuid()==player.uuid());
+            if(d!=null) {
+                player.team(d.getTeam());
+                leftDatas.remove(d);
+                return;
+            }
             player.team(Team.derelict);
             if(!awaitingClick.contains(player))
                 awaitingClick.add(player);
@@ -52,12 +56,14 @@ public class PEvents {
             Player player = e.player;
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
-            Timer.schedule(()->{
+            leftDatas.add(new leftPlayerData(player, player.team()));
+            Timer.Task timer = Timer.schedule(()->{
                 if(player.team() != Team.derelict && Groups.player.find(p->p.uuid()==player.uuid()) == null) {
                     Groups.build.each(b->{
                         if(b.team == player.team())
                             b.kill();
                     });
+                    leftDatas.remove(new leftPlayerData(player, player.team()));
                 }
             }, 30);
         });
@@ -92,11 +98,11 @@ public class PEvents {
         });
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p->{
-                if(p.team().core() == null) {
+                if(p.team().core() == null && p.team() == Team.derelict) {
                     if(playerTeams.contains(p.team()))
                         playerTeams.remove(p.team());
                     p.team(Team.derelict);
-                    p.sendMessage("[scalret]Вы проиграли!");
+                    p.sendMessage("[scarlet]Вы проиграли!");
                 }
             });
         });
