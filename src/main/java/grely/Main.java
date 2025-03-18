@@ -20,7 +20,7 @@ public class Main extends Plugin{
     }
 
     @Override
-    public void registerServerCommands(CommandHandler handler) {
+    public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.coloredName())));
     }
 }
