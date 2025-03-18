@@ -81,7 +81,7 @@ public class PEvents {
             Tile t = e.tile;
             if(!awaitingClick.contains(player))
                 return;
-            if(t.block() != null) {
+            if(t.block() != Blocks.air) {
                 player.sendMessage("[scarlet]На этом месте расположен " + t.block().emoji());
                 return;
             }
