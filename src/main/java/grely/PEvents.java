@@ -52,12 +52,14 @@ public class PEvents {
             Player player = e.player;
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
-            if(player.team() != Team.derelict) {
-                Groups.build.each(b->{
-                    if(b.team == player.team())
-                        b.kill();
-                });
-            }
+            Timer.schedule(()->{
+                if(player.team() != Team.derelict && Groups.player.find(p->p.uuid()==player.uuid()) == null) {
+                    Groups.build.each(b->{
+                        if(b.team == player.team())
+                            b.kill();
+                    });
+                }
+            }, 30);
         });
 
         Events.on(EventType.TapEvent.class, e -> {
