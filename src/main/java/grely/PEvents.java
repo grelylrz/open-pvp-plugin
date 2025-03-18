@@ -56,16 +56,20 @@ public class PEvents {
             Player player = e.player;
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
-            leftDatas.add(new leftPlayerData(player, player.team()));
-            Timer.Task timer = Timer.schedule(()->{
+            leftPlayerData huy = new leftPlayerData(player, player.team());
+            leftDatas.add(huy);
+            Timer.schedule(()->{
                 if(player.team() != Team.derelict && Groups.player.find(p->p.uuid().equals(player.uuid())) == null) {
                     Groups.build.each(b->{
                         if(b.team == player.team())
                             b.kill();
                     });
-                    leftDatas.remove(new leftPlayerData(player, player.team()));
+                    if(playerTeams.contains(player.team()))
+                        playerTeams.remove(player.team());
+                    if(leftDatas.contains(huy))
+                        leftDatas.remove(huy);
                 }
-            }, 30);
+            }, 300);
         });
 
         Events.on(EventType.TapEvent.class, e -> {
@@ -77,6 +81,10 @@ public class PEvents {
             Tile t = e.tile;
             if(!awaitingClick.contains(player))
                 return;
+            if(t.block() != null) {
+                player.sendMessage("[scarlet]На этом месте расположен " + t.block().emoji());
+                return;
+            }
             Building core = getCores().find(b -> {
                 int bx = (int) (b.x / 8);
                 int by = (int) (b.y / 8);
@@ -92,21 +100,21 @@ public class PEvents {
                 player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
                 if(awaitingClick.contains(player))
                     awaitingClick.remove(player);
+                if(!playerTeams.contains(player.team()))
+                    playerTeams.add(newTeam);
             } else {
                 player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
             }
         });
-        Events.run(EventType.Trigger.update, () -> {
-            Groups.player.each(p->{
-                if(p.team().core() == null && p.team() != Team.derelict) {
-                    if(playerTeams.contains(p.team()))
-                        playerTeams.remove(p.team());
-                    p.team(Team.derelict);
-                    p.sendMessage("[scarlet]Вы проиграли!");
-                    if(p.unit() != null)
-                        p.unit().kill();
-                }
-            });
-        });
+        Events.run(EventType.Trigger.update, () -> Groups.player.each(p->{
+            if(p.team().core() == null && p.team() != Team.derelict) {
+                if(playerTeams.contains(p.team()))
+                    playerTeams.remove(p.team());
+                p.team(Team.derelict);
+                p.sendMessage("[scarlet]Вы проиграли!");
+                if(p.unit() != null)
+                    p.unit().kill();
+            }
+        }));
     }
 }
