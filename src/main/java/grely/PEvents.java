@@ -58,7 +58,7 @@ public class PEvents {
                 awaitingClick.remove(player);
             leftDatas.add(new leftPlayerData(player, player.team()));
             Timer.Task timer = Timer.schedule(()->{
-                if(player.team() != Team.derelict && Groups.player.find(p->p.uuid()==player.uuid()) == null) {
+                if(player.team() != Team.derelict && Groups.player.find(p->p.uuid().equals(player.uuid())) == null) {
                     Groups.build.each(b->{
                         if(b.team == player.team())
                             b.kill();
@@ -103,6 +103,8 @@ public class PEvents {
                         playerTeams.remove(p.team());
                     p.team(Team.derelict);
                     p.sendMessage("[scarlet]Вы проиграли!");
+                    if(p.unit() != null)
+                        p.unit().kill();
                 }
             });
         });
