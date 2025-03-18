@@ -39,8 +39,8 @@ public class PEvents {
         // Это уже конечное подключение после загрузки мира.
         Events.on(EventType.PlayerJoin.class, e -> {
             Player player = e.player;
-            leftPlayerData d = leftDatas.find(p->p.getOld().uuid()==player.uuid());
-            if(d!=null) {
+            leftPlayerData d = leftDatas.find(p->p.getOld().uuid().equals(player.uuid()));
+            if(d != null) {
                 player.team(d.getTeam());
                 leftDatas.remove(d);
                 return;
@@ -98,7 +98,7 @@ public class PEvents {
         });
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p->{
-                if(p.team().core() == null && p.team() == Team.derelict) {
+                if(p.team().core() == null && p.team() != Team.derelict) {
                     if(playerTeams.contains(p.team()))
                         playerTeams.remove(p.team());
                     p.team(Team.derelict);
