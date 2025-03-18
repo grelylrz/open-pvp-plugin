@@ -91,6 +91,8 @@ public class PEvents {
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p->{
                 if(p.team().core() == null) {
+                    if(playerTeams.contains(p.team))
+                        playerTeams.remove(p.team);
                     p.team(Team.derelict);
                     p.sendMessage("[scalret]Вы проиграли!");
                 }
