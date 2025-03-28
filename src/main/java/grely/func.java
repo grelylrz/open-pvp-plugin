@@ -36,11 +36,17 @@ public class func {
         }*/
         return team;
     }
+
+    public static boolean isOwner(Player p, Team t) {
+        if(playerTeams.find(zov->zov.getTeam()==t && zov.getOwner()==p) != null)
+            return true;
+        return false;
+    }
+
     public static void clearData() {
         awaitingClick.clear();
         playerTeams.clear();
         leftDatas.clear();
-        // Groups.player.each(p->{});
     }
 
     @Getter
@@ -73,11 +79,26 @@ public class func {
     public static class TeamDat {
         Team team;
         Player owner;
-        Seq<Player> players;
+        Seq<Player> players = new Seq<>();
 
         TeamDat(Player owner, Team team) {
             this.team = team;
             this.owner = owner;
+            players.add(owner);
+        }
+    }
+
+    @Getter
+    @Setter
+    static class ReqData {
+        Team team;
+        Player owner;
+        Player requester;
+
+        ReqData(Player o, Player r) {
+            this.team=o.team();
+            this.owner=o;
+            this.requester=r;
         }
     }
 }
