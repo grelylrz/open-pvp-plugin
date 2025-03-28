@@ -8,6 +8,8 @@ import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import java.util.Random;
 import mindustry.gen.*;
+import lombok.Getter;
+import lombok.Setter;
 import static main.java.grely.PVars.*;
 
 public class func {
@@ -23,12 +25,26 @@ public class func {
         Random rand = new Random();
         int te = rand.nextInt(255) + 1;
         Team team = Team.all[te];
-        while (playerTeams.contains(team)) {
+        Team finalTeam = team;
+        while(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==finalTeam) != null) {
             te = rand.nextInt(255) + 1;
             team = Team.all[te];
         }
+        /*while (playerTeams.contains(team)) {
+            te = rand.nextInt(255) + 1;
+            team = Team.all[te];
+        }*/
         return team;
     }
+    public static void clearData() {
+        awaitingClick.clear();
+        playerTeams.clear();
+        leftDatas.clear();
+        // Groups.player.each(p->{});
+    }
+
+    @Getter
+    @Setter
     public static class leftPlayerData {
         Player old;
         Team team;
@@ -50,6 +66,18 @@ public class func {
         }
         void setTeam(Team newTeam) {
             this.team = newTeam;
+        }
+    }
+    @Getter
+    @Setter
+    public static class TeamDat {
+        Team team;
+        Player owner;
+        Seq<Player> players;
+
+        TeamDat(Player owner, Team team) {
+            this.team = team;
+            this.owner = owner;
         }
     }
 }

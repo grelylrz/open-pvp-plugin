@@ -12,15 +12,20 @@ public class Main extends Plugin{
     @Override
     public void init(){
         initEvents();
-        Rules rules = new Rules();
-        rules.canGameOver = false;
-        rules.modeName = "OpenPvP";
-        Vars.state.rules = rules.copy();
         Log.info("Loaded openpvp plugin v@", Vars.mods.getMod("openpvp").meta.version);
     }
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
-        handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.coloredName())));
+        handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
+
+        handler.<Player>register("req", "Попроситься к кому-либо в команду.", (args, player) ->{
+            player.sendMessage("В процессе разработки."); // TODO
+        });
+    }
+
+    @Override
+    public void registerServerCommands(CommandHandler handler) {
+        handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->Log.info(t.getTeam().coloredName())));
     }
 }

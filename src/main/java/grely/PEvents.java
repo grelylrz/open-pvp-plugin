@@ -4,9 +4,11 @@ import arc.Events;
 import arc.graphics.Color;
 import arc.util.Log;
 import arc.util.Timer;
+import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.game.EventType;
+import mindustry.game.Rules;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.world.Tile;
@@ -64,8 +66,8 @@ public class PEvents {
                         if(b.team == player.team())
                             b.kill();
                     });
-                    if(playerTeams.contains(player.team()))
-                        playerTeams.remove(player.team());
+                    if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) != null)
+                        playerTeams.remove(new TeamDat(player, player.team()));
                     if(leftDatas.contains(huy))
                         leftDatas.remove(huy);
                 }
@@ -100,21 +102,39 @@ public class PEvents {
                 player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
                 if(awaitingClick.contains(player))
                     awaitingClick.remove(player);
-                if(!playerTeams.contains(player.team()))
-                    playerTeams.add(newTeam);
+                if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) == null)
+                    playerTeams.add(new TeamDat(player, newTeam));
             } else {
                 player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
             }
         });
-        Events.run(EventType.Trigger.update, () -> Groups.player.each(p->{
-            if(p.team().core() == null && p.team() != Team.derelict) {
-                if(playerTeams.contains(p.team()))
-                    playerTeams.remove(p.team());
-                p.team(Team.derelict);
-                p.sendMessage("[scarlet]Вы проиграли!");
-                if(p.unit() != null)
-                    p.unit().kill();
+        Events.run(EventType.Trigger.update, () -> {
+            Groups.player.each(p -> {
+                if (p.team().core() == null && p.team() != Team.derelict) {
+                    if (playerTeams.contains(new TeamDat(p, p.team())))
+                        playerTeams.remove(new TeamDat(p, p.team()));
+                    p.team(Team.derelict);
+                    p.sendMessage("[scarlet]Вы проиграли!");
+                    if (p.unit() != null)
+                        p.unit().kill();
+                }
+            });
+            if(playerTeams.size < 2) {
+                Call.sendMessage(playerTeams.find(eb->eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
+                Events.fire(new EventType.GameOverEvent(Team.derelict));
             }
-        }));
+        });
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            Rules rules = new Rules();
+            rules.canGameOver = false;
+            rules.modeName = "OpenPvP";
+            Vars.state.rules = rules.copy();
+
+            clearData();
+
+            Team.sharded.cores().each(GOOOL->GOOOL.health=0);
+
+            Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
+        });
     }
 }
