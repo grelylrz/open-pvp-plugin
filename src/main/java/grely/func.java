@@ -47,6 +47,7 @@ public class func {
         awaitingClick.clear();
         playerTeams.clear();
         leftDatas.clear();
+        gameStarted = false;
     }
 
     @Getter

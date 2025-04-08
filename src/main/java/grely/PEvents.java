@@ -104,6 +104,8 @@ public class PEvents {
                     awaitingClick.remove(player);
                 if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) == null)
                     playerTeams.add(new TeamDat(player, newTeam));
+                if(playerTeams.size > 1)
+                    gameStarted = true;
             } else {
                 player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
             }
@@ -119,8 +121,8 @@ public class PEvents {
                         p.unit().kill();
                 }
             });
-            if(playerTeams.size < 2) {
-                Call.sendMessage(playerTeams.find(eb->eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
+            if (playerTeams.size < 2 && gameStarted) {
+                Call.sendMessage(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
                 Events.fire(new EventType.GameOverEvent(Team.derelict));
             }
         });
