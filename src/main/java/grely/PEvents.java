@@ -134,7 +134,8 @@ public class PEvents {
 
             clearData();
 
-            Team.sharded.cores().each(GOOOL->GOOOL.health=0);
+            Team.sharded.cores().each(GOOOL->GOOOL.kill());
+            Team.derelict.cores().each(GOOOL->GOOOL.kill());
 
             Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
         });
