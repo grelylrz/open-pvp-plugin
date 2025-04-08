@@ -29,9 +29,8 @@ public class func {
         do {
             int te = rand.nextInt(255) + 1;
             Team randomTeam = Team.all[te];
-            if (randomTeam == null) continue; 
+            if (randomTeam == null) continue;
 
-            // проверяем, занята ли команда
             if (playerTeams.find(p -> p.getTeam() == randomTeam) == null) {
                 return randomTeam;
             }
@@ -40,9 +39,7 @@ public class func {
 
 
     public static boolean isOwner(Player p, Team t) {
-        if(playerTeams.find(zov->zov.getTeam()==t && zov.getOwner()==p) != null)
-            return true;
-        return false;
+        return playerTeams.find(zov -> zov.getTeam() == t && zov.getOwner() == p) != null;
     }
 
     public static void clearData() {
