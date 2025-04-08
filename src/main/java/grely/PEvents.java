@@ -3,6 +3,7 @@ package main.java.grely;
 import arc.Events;
 import arc.graphics.Color;
 import arc.util.Log;
+import arc.util.Threads;
 import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -79,36 +80,38 @@ public class PEvents {
                 Log.debug("[TapEvent]Tile is null!");
                 return;
             }
-            Player player = e.player;
-            Tile t = e.tile;
-            if(!awaitingClick.contains(player))
-                return;
-            if(t.block() != Blocks.air) {
-                player.sendMessage("[scarlet]На этом месте расположен " + t.block().emoji());
-                return;
-            }
-            Building core = getCores().find(b -> {
-                int bx = (int) (b.x / 8);
-                int by = (int) (b.y / 8);
-                int dx = bx - t.x;
-                int dy = by - t.y;
-                return dx * dx + dy * dy <= 40 * 40;
+            Threads.daemon(()->{
+                Player player = e.player;
+                Tile t = e.tile;
+                if(!awaitingClick.contains(player))
+                    return;
+                if(t.block() != Blocks.air) {
+                    player.sendMessage("[scarlet]На этом месте расположен " + t.block().emoji());
+                    return;
+                }
+                Building core = getCores().find(b -> {
+                    int bx = (int) (b.x / 8);
+                    int by = (int) (b.y / 8);
+                    int dx = bx - t.x;
+                    int dy = by - t.y;
+                    return dx * dx + dy * dy <= 40 * 40;
+                });
+                if(core == null) {
+                    Team newTeam = getTeam();
+                    Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
+                    t.setNet(Blocks.coreShard, newTeam, 1);
+                    player.team(newTeam);
+                    player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
+                    if(awaitingClick.contains(player))
+                        awaitingClick.remove(player);
+                    if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) == null)
+                        playerTeams.add(new TeamDat(player, newTeam));
+                    if(playerTeams.size > 1)
+                        gameStarted = true;
+                } else {
+                    player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
+                }
             });
-            if(core == null) {
-                Team newTeam = getTeam();
-                Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
-                t.setNet(Blocks.coreShard, newTeam, 1);
-                player.team(newTeam);
-                player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
-                if(awaitingClick.contains(player))
-                    awaitingClick.remove(player);
-                if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) == null)
-                    playerTeams.add(new TeamDat(player, newTeam));
-                if(playerTeams.size > 1)
-                    gameStarted = true;
-            } else {
-                player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
-            }
         });
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p -> {

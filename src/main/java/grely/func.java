@@ -21,21 +21,23 @@ public class func {
         });
         return ret;
     }
+
     public static Team getTeam() {
         Random rand = new Random();
-        int te = rand.nextInt(255) + 1;
-        Team team = Team.all[te];
-        Team finalTeam = team;
-        while(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==finalTeam) != null) {
-            te = rand.nextInt(255) + 1;
-            team = Team.all[te];
-        }
-        /*while (playerTeams.contains(team)) {
-            te = rand.nextInt(255) + 1;
-            team = Team.all[te];
-        }*/
-        return team;
+        Team team;
+
+        do {
+            int te = rand.nextInt(255) + 1;
+            Team randomTeam = Team.all[te];
+            if (randomTeam == null) continue; 
+
+            // проверяем, занята ли команда
+            if (playerTeams.find(p -> p.getTeam() == randomTeam) == null) {
+                return randomTeam;
+            }
+        } while (true);
     }
+
 
     public static boolean isOwner(Player p, Team t) {
         if(playerTeams.find(zov->zov.getTeam()==t && zov.getOwner()==p) != null)
