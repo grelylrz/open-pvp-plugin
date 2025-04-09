@@ -140,6 +140,7 @@ public class PEvents {
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
                 Vars.state.rules = rules.copy();
+                Call.setRules(Vars.state.rules);
 
                 clearData();
 
