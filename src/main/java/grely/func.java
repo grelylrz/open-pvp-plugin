@@ -1,6 +1,8 @@
 package main.java.grely;
 
+import arc.struct.ObjectIntMap;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Timer;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
@@ -21,7 +23,22 @@ public class func {
         });
         return ret;
     }
+    public static void displayCores() {
+        ObjectIntMap<Team> teamCores = new ObjectIntMap<>();
 
+        getCores().each(c -> {
+            if (c.team != null) {
+                teamCores.get(c.team, 0);
+                teamCores.increment(c.team, 1);
+            }
+        });
+        StringBuilder sb = new StringBuilder();
+        teamCores.forEach(team -> {
+            sb.append(team.key.coloredName() + " [stat]имела " + team.value + " ядер!");
+        });
+        Call.infoMessage(sb.toString());
+        sb.setLength(0);
+    }
     public static Team getTeam() {
         Random rand = new Random();
         Team team;

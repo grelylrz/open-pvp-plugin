@@ -131,17 +131,22 @@ public class PEvents {
         });
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(()->{
-            Rules rules = new Rules();
-            rules.canGameOver = false;
-            rules.modeName = "OpenPvP";
-            Vars.state.rules = rules.copy();
+                Rules rules = new Rules();
+                rules.canGameOver = false;
+                rules.modeName = "OpenPvP";
+                Vars.state.rules = rules.copy();
 
-            clearData();
+                clearData();
 
-            Team.sharded.cores().each(GOOOL->GOOOL.kill());
-            Team.derelict.cores().each(GOOOL->GOOOL.kill());
-
-            Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
+                Team.sharded.cores().each(GOOOL->GOOOL.kill());
+                Team.derelict.cores().each(GOOOL->GOOOL.kill());
+                Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
+                GameOverWhen.cancel();
+                GameOverWhen = Timer.schedule(()->{
+                    Call.sendChatMessage("[scarlet]Игра окончена!");
+                    displayCores();
+                    Events.fire(new EventType.GameOverEvent(Team.derelict));
+                }, 80*60);
             }, 1);
         });
     }
