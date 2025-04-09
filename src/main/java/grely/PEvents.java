@@ -60,21 +60,23 @@ public class PEvents {
             Player player = e.player;
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
-            leftPlayerData huy = new leftPlayerData(player, player.team());
-            huy.setUuid(player.uuid());
-            leftDatas.add(huy);
-            Timer.schedule(()->{
-                if(player.team() != Team.derelict && Groups.player.find(p->p.uuid().equals(player.uuid())) == null) {
-                    Groups.build.each(b->{
-                        if(b.team == player.team())
-                            b.kill();
-                    });
-                    if(playerTeams.find(SVOGOYDA->SVOGOYDA.getTeam()==player.team()) != null)
-                        playerTeams.remove(new TeamDat(player, player.team()));
-                    if(leftDatas.contains(huy))
-                        leftDatas.remove(huy);
-                }
-            }, 300);
+            if(player.team() != Team.derelict) {
+                leftPlayerData huy = new leftPlayerData(player, player.team());
+                huy.setUuid(player.uuid());
+                leftDatas.add(huy);
+                Timer.schedule(() -> {
+                    if (player.team() != Team.derelict && Groups.player.find(p -> p.uuid().equals(player.uuid())) == null) {
+                        Groups.build.each(b -> {
+                            if (b.team == player.team())
+                                b.kill();
+                        });
+                        if (playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()) != null)
+                            playerTeams.remove(new TeamDat(player, player.team()));
+                        if (leftDatas.contains(huy))
+                            leftDatas.remove(huy);
+                    }
+                }, 300);
+            }
         });
 
         Events.on(EventType.TapEvent.class, e -> {
