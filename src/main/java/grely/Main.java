@@ -46,5 +46,17 @@ public class Main extends Plugin{
     @Override
     public void registerServerCommands(CommandHandler handler) {
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->Log.info(t.getTeam().coloredName())));
+        handler.register("click-add", "<uuid>", "добавить игрока в ожидание клика", (args) -> {
+            Player fp = Groups.player.find(meow->meow.uuid()==args[0]);
+            if(fp != null && !awaitingClick.contains(fp)) {
+                awaitingClick.add(fp);
+                Log.info("Игрок добавлен в список!");
+                return;
+            }
+            Log.info("Игрок не найден или он уже имеется в списке, посмотрите clicks!");
+        });
+        handler.register("clicks", "добавить игрока в ожидание клика", (args) -> {
+            awaitingClick.each(nyah->Log.info("@ @", nyah.plainName(), nyah.uuid()));
+        });
     }
 }

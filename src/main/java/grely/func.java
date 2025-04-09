@@ -41,7 +41,6 @@ public class func {
     }
     public static Team getTeam() {
         Random rand = new Random();
-        Team team;
 
         do {
             int te = rand.nextInt(255) + 1;
@@ -51,6 +50,7 @@ public class func {
             if (playerTeams.find(p -> p.getTeam() == randomTeam) == null) {
                 return randomTeam;
             }
+
         } while (true);
     }
 
@@ -70,6 +70,7 @@ public class func {
     @Setter
     public static class leftPlayerData {
         Player old;
+        String uuid;
         Team team;
 
         leftPlayerData(Player player, Team team) {

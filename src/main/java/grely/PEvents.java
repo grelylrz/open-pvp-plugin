@@ -34,7 +34,7 @@ public class PEvents {
                     t.setNet(Blocks.coreShard, e.team, 1);
                     // Log.debug("Setted");
                 } else {
-                    Log.debug("Team is der. | breaking | block not vault");
+                    Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
                 }
             }, 1);
         });
@@ -42,8 +42,9 @@ public class PEvents {
         // Это уже конечное подключение после загрузки мира.
         Events.on(EventType.PlayerJoin.class, e -> {
             Player player = e.player;
-            leftPlayerData d = leftDatas.find(p->p.getOld().uuid().equals(player.uuid()));
+            leftPlayerData d = leftDatas.find(p->p.getUuid().equals(player.uuid()));
             if(d != null) {
+                player.sendMessage("Похоже, вы уже учавствовали в игре, ваша команда будет восстановлена. " + d.getTeam().name);
                 player.team(d.getTeam());
                 leftDatas.remove(d);
                 return;
@@ -60,6 +61,7 @@ public class PEvents {
             if(awaitingClick.contains(player))
                 awaitingClick.remove(player);
             leftPlayerData huy = new leftPlayerData(player, player.team());
+            huy.setUuid(player.uuid());
             leftDatas.add(huy);
             Timer.schedule(()->{
                 if(player.team() != Team.derelict && Groups.player.find(p->p.uuid().equals(player.uuid())) == null) {
@@ -81,6 +83,7 @@ public class PEvents {
                 return;
             }
             Threads.daemon(()->{
+                Log.debug("Thread started!");
                 Player player = e.player;
                 Tile t = e.tile;
                 if(!awaitingClick.contains(player))
@@ -97,7 +100,9 @@ public class PEvents {
                     return dx * dx + dy * dy <= 40 * 40;
                 });
                 if(core == null) {
+                    Log.debug("Finding free team...");
                     Team newTeam = getTeam();
+                    Log.debug("Team @ found!", newTeam.name);
                     Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
                     t.setNet(Blocks.coreShard, newTeam, 1);
                     player.team(newTeam);
