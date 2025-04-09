@@ -99,7 +99,7 @@ public class PEvents {
                     int by = (int) (b.y / 8);
                     int dx = bx - t.x;
                     int dy = by - t.y;
-                    return dx * dx + dy * dy <= 40 * 40;
+                    return dx * dx + dy * dy <= 70 * 70;
                 });
                 if(core == null) {
                     Log.debug("Finding free team...");
@@ -138,9 +138,10 @@ public class PEvents {
         });
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(()->{
-                Rules rules = new Rules();
+                Rules rules = Vars.state.rules.copy();
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
+                rules.enemyCoreBuildRadius = 200;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 
