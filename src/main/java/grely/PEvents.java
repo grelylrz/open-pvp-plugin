@@ -150,7 +150,8 @@ public class PEvents {
                 Team.sharded.cores().each(GOOOL->GOOOL.kill());
                 Team.derelict.cores().each(GOOOL->GOOOL.kill());
                 Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
-                GameOverWhen.cancel();
+                if(GameOverWhen != null)
+                    GameOverWhen.cancel();
                 GameOverWhen = Timer.schedule(()->{
                     Call.sendChatMessage("[scarlet]Игра окончена!");
                     displayCores();
