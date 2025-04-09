@@ -153,7 +153,7 @@ public class PEvents {
                 if(GameOverWhen != null)
                     GameOverWhen.cancel();
                 GameOverWhen = Timer.schedule(()->{
-                    Call.sendChatMessage("[scarlet]Игра окончена!");
+                    Call.sendMessage("[scarlet]Игра окончена!");
                     displayCores();
                     Events.fire(new EventType.GameOverEvent(Team.derelict));
                 }, 80*60);
