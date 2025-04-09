@@ -130,6 +130,7 @@ public class PEvents {
             }
         });
         Events.on(EventType.WorldLoadEvent.class, e -> {
+            Timer.schedule(()->{
             Rules rules = new Rules();
             rules.canGameOver = false;
             rules.modeName = "OpenPvP";
@@ -141,6 +142,7 @@ public class PEvents {
             Team.derelict.cores().each(GOOOL->GOOOL.kill());
 
             Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
+            }, 1);
         });
     }
 }
