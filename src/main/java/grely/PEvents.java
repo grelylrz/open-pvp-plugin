@@ -30,9 +30,20 @@ public class PEvents {
             Timer.schedule(() -> {
                 Log.debug("Timer!");
                 if(e.team != Team.derelict && !e.breaking && e.tile.block() == Blocks.vault /*ТЗ*/){
-                    Call.effect(Fx.mine, t.x*8, t.y*8, 1, Color.red);
-                    t.setNet(Blocks.coreShard, e.team, 1);
-                    // Log.debug("Setted");
+                    Building core = getCores().find(b -> {
+                        int bx = (int) (b.x / 8);
+                        int by = (int) (b.y / 8);
+                        int dx = bx - t.x;
+                        int dy = by - t.y;
+                        return dx * dx + dy * dy <= 70 * 70;
+                    });
+                    if(core == null) {
+                        Call.effect(Fx.mine, t.x * 8, t.y * 8, 1, Color.red);
+                        t.setNet(Blocks.coreShard, e.team, 1);
+                        // Log.debug("Setted");
+                    } else {
+                        Call.label("[scarlet]Рядом ядро команды " + core.team.coloredName(), 1f, t.x, t.y);
+                    }
                 } else {
                     Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
                 }
