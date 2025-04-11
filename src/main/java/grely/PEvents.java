@@ -182,6 +182,7 @@ public class PEvents {
                 rules.bannedBlocks.add(Blocks.coreBastion);
                 rules.bannedBlocks.add(Blocks.coreAcropolis);
                 rules.pvpAutoPause = true;
+                rules.infiniteResources = false;
                 rules.pvp = true;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
@@ -199,7 +200,7 @@ public class PEvents {
                     displayCores();
                     Events.fire(new EventType.GameOverEvent(Team.derelict));
                 }, 180*60);
-            }, 1);
+            }, 3);
         });
     }
 }
