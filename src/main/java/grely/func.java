@@ -4,6 +4,7 @@ import arc.struct.ObjectIntMap;
 import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Timer;
+import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.game.Team;
@@ -13,6 +14,8 @@ import java.util.Random;
 import mindustry.gen.*;
 import lombok.Getter;
 import lombok.Setter;
+import mindustry.world.Block;
+
 import static main.java.grely.PVars.*;
 
 public class func {
@@ -58,6 +61,22 @@ public class func {
 
     public static boolean isOwner(Player p, Team t) {
         return playerTeams.find(zov -> zov.getTeam() == t && zov.getOwner() == p) != null;
+    }
+
+    public static int getCap(Team team) {
+        int cap = Vars.state.rules.unitCap;
+
+        for (Building b : getCores()) {
+            if (b.team != team) continue;
+
+            if (b.block == Blocks.coreNucleus) {
+                cap += 8;
+            } else if (b.block == Blocks.coreFoundation) {
+                cap += 4;
+            }
+        }
+
+        return cap;
     }
 
     public static void clearData() {

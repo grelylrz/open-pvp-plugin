@@ -52,6 +52,8 @@ public class PEvents {
                 } else {
                     Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
                 }
+                if(e.tile.build.block == Blocks.coreFoundation || e.tile.build.block == Blocks.coreNucleus)
+                    e.team.data().unitCap = getCap(e.team);
             }, 1);
         });
 
@@ -184,7 +186,7 @@ public class PEvents {
                 rules.bannedBlocks.add(Blocks.coreAcropolis);
                 rules.pvpAutoPause = true;
                 rules.infiniteResources = false;
-                rules.pvp = true;
+                rules.possessionAllowed = true;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 
