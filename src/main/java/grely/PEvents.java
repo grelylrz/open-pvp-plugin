@@ -19,6 +19,7 @@ import static main.java.grely.PVars.*;
 import static main.java.grely.func.*;
 
 public class PEvents {
+    public static int coreProtectRad = 65;
     public static void initEvents() {
         Log.info("Loading events.");
         Events.on(EventType.BlockBuildEndEvent.class, e -> {
@@ -36,7 +37,7 @@ public class PEvents {
                             int by = (int) (b.y / 8);
                             int dx = bx - t.x;
                             int dy = by - t.y;
-                            return dx * dx + dy * dy <= 40 * 40;
+                            return dx * dx + dy * dy <= coreProtectRad * coreProtectRad;
                         } else {
                             return false;
                         }
@@ -119,7 +120,7 @@ public class PEvents {
                     int by = (int) (b.y / 8);
                     int dx = bx - t.x;
                     int dy = by - t.y;
-                    return dx * dx + dy * dy <= 40 * 40;
+                    return dx * dx + dy * dy <= coreProtectRad * coreProtectRad;
                 });
                 if(core == null) {
                     Log.debug("Finding free team...");
