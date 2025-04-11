@@ -42,7 +42,7 @@ public class Main extends Plugin{
                 player.unit().kill();
                 Groups.build.each(b -> {
                     if (b.team == player.team())
-                        b.kill()
+                        b.kill();
                 });
                 player.team(Team.derelict);
             } else {
