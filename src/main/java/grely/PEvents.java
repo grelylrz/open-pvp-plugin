@@ -107,7 +107,7 @@ public class PEvents {
                 if(!awaitingClick.contains(player))
                     return;
                 if(t.block() != Blocks.air) {
-                    player.sendMessage("[scarlet]На этом месте расположен " + t.block().emoji());
+                    player.sendMessage("[scarlet]На этом месте расположен [white]" + t.block().emoji());
                     return;
                 }
                 Building core = getCores().find(b -> {
