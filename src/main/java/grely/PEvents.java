@@ -106,7 +106,7 @@ public class PEvents {
                     Team newTeam = getTeam();
                     Log.debug("Team @ found!", newTeam.name);
                     Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
-                    t.setNet(Blocks.coreShard, newTeam, 1);
+                    t.setNet(Blocks.coreNucleus, newTeam, 1);
                     addItems(t.build);
                     player.team(newTeam);
                     player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
