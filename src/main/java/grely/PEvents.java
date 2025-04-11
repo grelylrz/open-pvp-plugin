@@ -107,6 +107,7 @@ public class PEvents {
                     Log.debug("Team @ found!", newTeam.name);
                     Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
                     t.setNet(Blocks.coreShard, newTeam, 1);
+                    addItems(t.build);
                     player.team(newTeam);
                     player.sendMessage("[green]С этого момента вы являетесь участником команды " + newTeam.coloredName());
                     if(awaitingClick.contains(player))
@@ -142,6 +143,10 @@ public class PEvents {
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
                 rules.enemyCoreBuildRadius = 200;
+                rules.unitCapVariable = false;
+                rules.bannedBlocks.add(Blocks.coreCitadel);
+                rules.bannedBlocks.add(Blocks.coreBastion);
+                rules.bannedBlocks.add(Blocks.coreAcropolis);
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 

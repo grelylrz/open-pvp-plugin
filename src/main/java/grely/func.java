@@ -5,6 +5,7 @@ import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.content.Blocks;
+import mindustry.content.Items;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
@@ -64,6 +65,19 @@ public class func {
         playerTeams.clear();
         leftDatas.clear();
         gameStarted = false;
+    }
+
+    public static void addItems(Building core) {
+        try {
+            if(core == null)
+                return;
+            core.items.add(Items.copper, 300);
+            core.items.add(Items.lead, 250);
+            core.items.add(Items.graphite, 100);
+            core.items.add(Items.titanium, 50);
+        } catch (Exception e) {
+            Log.err("Не могу добавить ресурсы в ядро: ", e);
+        }
     }
 
     @Getter
