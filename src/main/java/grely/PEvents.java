@@ -143,7 +143,8 @@ public class PEvents {
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
                 rules.enemyCoreBuildRadius = 200;
-                //rules.unitCapVariable = false;
+                rules.unitCapVariable = false; // Whether cores add to unit limit
+                rules.unitCap = 32;
                 rules.waves = false;
                 rules.bannedBlocks.add(Blocks.coreCitadel);
                 rules.bannedBlocks.add(Blocks.coreBastion);
