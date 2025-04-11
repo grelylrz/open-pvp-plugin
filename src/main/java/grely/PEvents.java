@@ -55,7 +55,7 @@ public class PEvents {
             Player player = e.player;
             leftPlayerData d = leftDatas.find(p->p.getUuid().equals(player.uuid()));
             if(d != null) {
-                player.sendMessage("Похоже, вы уже учавствовали в игре, ваша команда будет восстановлена. " + d.getTeam().name);
+                player.sendMessage("[green]Похоже, вы уже учавствовали в игре, ваша команда будет восстановлена. " + d.getTeam().name);
                 player.team(d.getTeam());
                 leftDatas.remove(d);
                 return;
@@ -81,8 +81,11 @@ public class PEvents {
                             if (b.team == player.team())
                                 b.kill();
                         });
-                        if (playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()) != null)
+                        TeamDat fdat = playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team());
+                        if (fdat != null) {
                             playerTeams.remove(new TeamDat(player, player.team()));
+                            playerTeams.remove(fdat);
+                        }
                         if (leftDatas.contains(huy))
                             leftDatas.remove(huy);
                     }
