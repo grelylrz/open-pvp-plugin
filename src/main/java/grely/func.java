@@ -35,7 +35,7 @@ public class func {
         });
         StringBuilder sb = new StringBuilder();
         teamCores.forEach(team -> {
-            sb.append(team.key.coloredName() + " [stat]имела " + team.value + " ядер!");
+            sb.append(playerTeams.find(z->z.getTeam()==team.key).owner.coloredName().replace("\n", "") + " [stat]имел(а) " + team.value + " ядер!\n");
         });
         Call.infoMessage(sb.toString());
         sb.setLength(0);
