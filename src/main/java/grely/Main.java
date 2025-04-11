@@ -17,6 +17,7 @@ public class Main extends Plugin{
     public void init(){
         initEvents();
         Log.info("Loaded openpvp plugin v@", Vars.mods.getMod("openpvp").meta.version);
+        Log.info("Вы можете менять правила, но правила используемые плагином все равно будут назначены им!");
         Timer.schedule(()->{
             if(GameOverWhen != null && GameStartWhen != 0){
                 long now = System.currentTimeMillis();
@@ -75,7 +76,7 @@ public class Main extends Plugin{
     public void registerServerCommands(CommandHandler handler) {
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->Log.info(t.getTeam().coloredName())));
         handler.register("click-add", "<uuid>", "добавить игрока в ожидание клика", (args) -> {
-            Player fp = Groups.player.find(meow->meow.uuid()==args[0]);
+            Player fp = Groups.player.find(meow->meow.uuid().equals(args[0]));
             if(fp != null && !awaitingClick.contains(fp)) {
                 awaitingClick.add(fp);
                 Log.info("Игрок добавлен в список!");
