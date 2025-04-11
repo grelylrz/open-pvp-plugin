@@ -36,7 +36,7 @@ public class Main extends Plugin{
     @Override
     public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
-        handler.<Player>register("killme", "Перейти в серую команду.", (args, player) ->{
+        handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
             if(player.team() != Team.derelict) {
                 playerTeams.remove(playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()));
                 player.unit().kill();
