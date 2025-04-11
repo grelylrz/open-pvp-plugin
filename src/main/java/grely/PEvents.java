@@ -31,11 +31,15 @@ public class PEvents {
                 Log.debug("Timer!");
                 if(e.team != Team.derelict && !e.breaking && e.tile.block() == Blocks.vault /*ТЗ*/){
                     Building core = getCores().find(b -> {
-                        int bx = (int) (b.x / 8);
-                        int by = (int) (b.y / 8);
-                        int dx = bx - t.x;
-                        int dy = by - t.y;
-                        return dx * dx + dy * dy <= 70 * 70;
+                        if(b.team != e.team) {
+                            int bx = (int) (b.x / 8);
+                            int by = (int) (b.y / 8);
+                            int dx = bx - t.x;
+                            int dy = by - t.y;
+                            return dx * dx + dy * dy <= 40 * 40;
+                        } else {
+                            return false;
+                        }
                     });
                     if(core == null) {
                         Call.effect(Fx.mine, t.x * 8, t.y * 8, 1, Color.red);
@@ -115,7 +119,7 @@ public class PEvents {
                     int by = (int) (b.y / 8);
                     int dx = bx - t.x;
                     int dy = by - t.y;
-                    return dx * dx + dy * dy <= 70 * 70;
+                    return dx * dx + dy * dy <= 40 * 40;
                 });
                 if(core == null) {
                     Log.debug("Finding free team...");
@@ -166,6 +170,8 @@ public class PEvents {
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(()->{
                 Rules rules = Vars.state.rules.copy();
+                if(rules.pvp)
+                    Log.info("Вы можете не ставить режим пвп вручную!");
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
                 rules.enemyCoreBuildRadius = 200;
@@ -176,6 +182,7 @@ public class PEvents {
                 rules.bannedBlocks.add(Blocks.coreBastion);
                 rules.bannedBlocks.add(Blocks.coreAcropolis);
                 rules.pvpAutoPause = true;
+                rules.pvp = true;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 

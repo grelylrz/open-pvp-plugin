@@ -46,7 +46,7 @@ public class Main extends Plugin{
                 });
                 player.team(Team.derelict);
             } else {
-                player.sendMessage("[scarlet]Вы уже серой в серой команде!");
+                player.sendMessage("[scarlet]Вы уже в серой команде!");
             }
         });
 
