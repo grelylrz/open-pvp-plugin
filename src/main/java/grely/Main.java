@@ -2,6 +2,7 @@ package main.java.grely;
 
 import arc.util.*;
 import mindustry.*;
+import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
@@ -26,15 +27,27 @@ public class Main extends Plugin{
                 long minutes = remainingMillis / (60 * 1000);
                 long seconds = (remainingMillis / 1000) % 60;
 
-                Call.hideHudText();
                 Call.setHudText("[sky]До конца игры осталось: " + minutes + " минут " + seconds + " секунд.");
             }
-        }, 0, 1);
+        }, 0, 1.1f);
     }
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
+        handler.<Player>register("killme", "Перейти в серую команду.", (args, player) ->{
+            if(player.team() != Team.derelict) {
+                playerTeams.remove(playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()));
+                player.team(Team.derelict);
+                player.unit().kill();
+                Groups.build.each(b -> {
+                    if (b.team == player.team())
+                        b.team(Team.derelict);
+                });
+            } else {
+                player.sendMessage("[scarlet]Вы уже серой в серой команде!");
+            }
+        });
 
         /*
         TODO

@@ -83,6 +83,8 @@ public class PEvents {
                         });
                         TeamDat fdat = playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team());
                         if (fdat != null) {
+                            if(Groups.player.size() < 2)
+                                gameStarted = false;
                             playerTeams.remove(new TeamDat(player, player.team()));
                             playerTeams.remove(fdat);
                         }
@@ -117,6 +119,10 @@ public class PEvents {
                 });
                 if(core == null) {
                     Log.debug("Finding free team...");
+                    if(playerTeams.size > 255) {
+                        player.sendMessage("Извините, все команды заняты...");
+                        return;
+                    }
                     Team newTeam = getTeam();
                     Log.debug("Team @ found!", newTeam.name);
                     Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
@@ -140,6 +146,10 @@ public class PEvents {
                 if (p.team().core() == null && p.team() != Team.derelict) {
                     if (playerTeams.contains(new TeamDat(p, p.team())))
                         playerTeams.remove(new TeamDat(p, p.team()));
+                    Groups.build.each(b -> {
+                        if (b.team == p.team())
+                            b.team(Team.derelict);
+                    });
                     p.team(Team.derelict);
                     p.sendMessage("[scarlet]Вы проиграли!");
                     if (p.unit() != null)
@@ -149,6 +159,7 @@ public class PEvents {
             if (playerTeams.size < 2 && gameStarted) {
                 Call.sendMessage(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
                 Events.fire(new EventType.GameOverEvent(Team.derelict));
+                gameStarted = false;
             }
         });
         Events.on(EventType.WorldLoadEvent.class, e -> {
