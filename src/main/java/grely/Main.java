@@ -22,7 +22,7 @@ public class Main extends Plugin{
             if(GameOverWhen != null && GameStartWhen != 0){
                 long now = System.currentTimeMillis();
                 long elapsedMillis = now - GameStartWhen;
-                long totalGameMillis = 80 * 60 * 1000L;
+                long totalGameMillis = 180 * 60 * 1000L;
                 long remainingMillis = totalGameMillis - elapsedMillis;
 
                 long minutes = remainingMillis / (60 * 1000);

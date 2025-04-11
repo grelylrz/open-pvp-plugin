@@ -198,7 +198,7 @@ public class PEvents {
                     Call.sendMessage("[scarlet]Игра окончена!");
                     displayCores();
                     Events.fire(new EventType.GameOverEvent(Team.derelict));
-                }, 80*60);
+                }, 180*60);
             }, 1);
         });
     }
