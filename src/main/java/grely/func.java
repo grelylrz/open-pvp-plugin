@@ -72,9 +72,9 @@ public class func {
             if(core == null)
                 return;
             core.items.add(Items.copper, 300);
-            core.items.add(Items.lead, 250);
-            core.items.add(Items.graphite, 100);
-            core.items.add(Items.titanium, 50);
+            //core.items.add(Items.lead, 250);
+            //core.items.add(Items.graphite, 100);
+            //core.items.add(Items.titanium, 50);
         } catch (Exception e) {
             Log.err("Не могу добавить ресурсы в ядро: ", e);
         }
