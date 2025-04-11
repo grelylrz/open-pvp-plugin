@@ -43,7 +43,7 @@ public class Main extends Plugin{
                 player.unit().kill();
                 Groups.build.each(b -> {
                     if (b.team == player.team())
-                        b.kill()
+                        b.kill();
                 });
             } else {
                 player.sendMessage("[scarlet]Вы уже серой в серой команде!");
