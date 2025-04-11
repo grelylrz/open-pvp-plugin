@@ -39,12 +39,12 @@ public class Main extends Plugin{
         handler.<Player>register("killme", "Перейти в серую команду.", (args, player) ->{
             if(player.team() != Team.derelict) {
                 playerTeams.remove(playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()));
-                player.team(Team.derelict);
                 player.unit().kill();
                 Groups.build.each(b -> {
                     if (b.team == player.team())
                         b.kill()
                 });
+                player.team(Team.derelict);
             } else {
                 player.sendMessage("[scarlet]Вы уже серой в серой команде!");
             }
