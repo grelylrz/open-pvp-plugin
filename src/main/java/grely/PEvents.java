@@ -150,18 +150,6 @@ public class PEvents {
                 Call.sendMessage(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
                 Events.fire(new EventType.GameOverEvent(Team.derelict));
             }
-            if(GameOverWhen != null && GameStartWhen != 0){
-                long now = System.currentTimeMillis();
-                long elapsedMillis = now - GameStartWhen;
-                long totalGameMillis = 80 * 60 * 1000L;
-                long remainingMillis = totalGameMillis - elapsedMillis;
-
-                long minutes = remainingMillis / (60 * 1000);
-                long seconds = (remainingMillis / 1000) % 60;
-
-                Call.hideHudText();
-                Call.setHudText("[sky]До конца игры осталось: " + minutes + " минут " + seconds + " секунд.");
-            }
         });
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(()->{

@@ -2,6 +2,7 @@ package main.java.grely;
 
 import arc.util.*;
 import mindustry.*;
+import mindustry.gen.Call;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.mod.*;
@@ -15,6 +16,20 @@ public class Main extends Plugin{
     public void init(){
         initEvents();
         Log.info("Loaded openpvp plugin v@", Vars.mods.getMod("openpvp").meta.version);
+        Timer.schedule(()->{
+            if(GameOverWhen != null && GameStartWhen != 0){
+                long now = System.currentTimeMillis();
+                long elapsedMillis = now - GameStartWhen;
+                long totalGameMillis = 80 * 60 * 1000L;
+                long remainingMillis = totalGameMillis - elapsedMillis;
+
+                long minutes = remainingMillis / (60 * 1000);
+                long seconds = (remainingMillis / 1000) % 60;
+
+                Call.hideHudText();
+                Call.setHudText("[sky]До конца игры осталось: " + minutes + " минут " + seconds + " секунд.");
+            }
+        }, 0, 1);
     }
 
     @Override
