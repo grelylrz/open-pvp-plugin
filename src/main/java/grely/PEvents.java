@@ -148,7 +148,7 @@ public class PEvents {
                         playerTeams.remove(new TeamDat(p, p.team()));
                     Groups.build.each(b -> {
                         if (b.team == p.team())
-                            b.team(Team.derelict);
+                            b.kill();
                     });
                     p.team(Team.derelict);
                     p.sendMessage("[scarlet]Вы проиграли!");
