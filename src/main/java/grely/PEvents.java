@@ -187,6 +187,7 @@ public class PEvents {
                 rules.pvpAutoPause = true;
                 rules.infiniteResources = false;
                 rules.possessionAllowed = true;
+                rules.unitBuildSpeedMultiplier = 0.33;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 
