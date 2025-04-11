@@ -30,7 +30,7 @@ public class Main extends Plugin{
 
                 Call.setHudText("[sky]До конца игры осталось: " + minutes + " минут " + seconds + " секунд.");
             }
-        }, 0, 1.1f);
+        }, 0, 1);
     }
 
     @Override
