@@ -23,8 +23,8 @@ public class PEvents {
     public static void initEvents() {
         Log.info("Loading events.");
         Events.on(EventType.BlockBuildEndEvent.class, e -> {
-            if(e.tile == null /*How?*/) {
-                Log.debug("[BlockBuildEnvEvent]Tile is null");
+            if(e.tile == null /*How?*/ || e.tile.build == null) {
+                Log.debug("[BlockBuildEnvEvent]Tile/build is null");
                 return;
             }
             Tile t = e.tile;

@@ -89,4 +89,5 @@ public class Main extends Plugin {
             awaitingClick.each(nyah->Log.info("@ @", nyah.plainName(), nyah.uuid()));
         });
     }
+
 }
