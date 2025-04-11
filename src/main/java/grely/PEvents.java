@@ -144,8 +144,9 @@ public class PEvents {
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p -> {
                 if (p.team().core() == null && p.team() != Team.derelict) {
-                    if (playerTeams.contains(new TeamDat(p, p.team())))
-                        playerTeams.remove(new TeamDat(p, p.team()));
+                    TeamDat myaah = Groups.player.find(pl -> pl.uuid().equals(p.uuid()));
+                    if(myaah != null)
+                        playerTeams.remove(myaah);
                     Groups.build.each(b -> {
                         if (b.team == p.team())
                             b.kill();
