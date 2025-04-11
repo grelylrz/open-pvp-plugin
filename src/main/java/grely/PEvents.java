@@ -163,6 +163,7 @@ public class PEvents {
                 rules.bannedBlocks.add(Blocks.coreCitadel);
                 rules.bannedBlocks.add(Blocks.coreBastion);
                 rules.bannedBlocks.add(Blocks.coreAcropolis);
+                rules.pvpAutoPause = true;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
 
