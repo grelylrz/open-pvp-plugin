@@ -12,4 +12,5 @@ public class PVars {
     public static Seq<ReqData> teamReqData = new Seq<>();
     public static boolean gameStarted;
     public static Timer.Task GameOverWhen = null;
+    public static long GameStartWhen = 0L;
 }
