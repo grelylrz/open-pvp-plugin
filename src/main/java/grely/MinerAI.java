@@ -19,7 +19,7 @@ public class MinerAI extends mindustry.ai.types.MinerAI {
             this.unit.mineTile(null);
         }
         if (this.mining) {
-            if (this.timer.get(1, 240.0f) || this.targetItem == null) {
+            if (this.timer.get(1, 24.0f) || this.targetItem == null) {
                 this.targetItem = this.unit.type.mineItems.min(i -> Vars.indexer.hasOre((Item)i) && this.unit.canMine((Item)i), i -> core.items.get((Item)i));
             }
             if (this.targetItem != null && core.acceptStack(this.targetItem, 1, this.unit) == 0) {
