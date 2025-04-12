@@ -14,6 +14,7 @@ import java.util.Random;
 import mindustry.gen.*;
 import lombok.Getter;
 import lombok.Setter;
+import static mindustry.content.Planets.*;
 import mindustry.world.Block;
 
 import static main.java.grely.PVars.*;
@@ -90,10 +91,18 @@ public class func {
         try {
             if(core == null)
                 return;
-            core.items.add(Items.copper, 250);
-            core.items.add(Items.lead, 250);
-            //core.items.add(Items.graphite, 100);
-            //core.items.add(Items.titanium, 50);
+            if(Vars.state.rules.planet == sun) {
+                core.items.add(Items.beryllium, 100);
+                core.items.add(Items.copper, 250);
+                core.items.add(Items.lead, 250);
+            } else if(Vars.state.rules.planet == serpulo) {
+                core.items.add(Items.copper, 250);
+                core.items.add(Items.lead, 250);
+            } else if(Vars.state.rules.planet == erekir) {
+                core.items.add(Items.beryllium, 250);
+            } else {
+                Log.err("Bruh.");
+            }
         } catch (Exception e) {
             Log.err("Не могу добавить ресурсы в ядро: ", e);
         }
