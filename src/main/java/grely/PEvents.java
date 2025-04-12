@@ -30,6 +30,10 @@ public class PEvents {
             Tile t = e.tile;
             Timer.schedule(() -> {
                 Log.debug("Timer!");
+                if(e.tile == null /*How?*/ || e.tile.build == null) {
+                    Log.debug("[BlockBuildEnvEvent]Tile/build is null");
+                    return;
+                }
                 if(e.team != Team.derelict && !e.breaking && e.tile.block() == Blocks.vault /*ТЗ*/){
                     Building core = getCores().find(b -> {
                         if(b.team != e.team) {
@@ -51,6 +55,10 @@ public class PEvents {
                     }
                 } else {
                     Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
+                }
+                if(e.tile == null /*How?*/ || e.tile.build == null) {
+                    Log.debug("[BlockBuildEnvEvent]Tile/build is null");
+                    return;
                 }
                 if(e.tile.build.block == Blocks.coreFoundation || e.tile.build.block == Blocks.coreNucleus)
                     e.team.data().unitCap = getCap(e.team);
