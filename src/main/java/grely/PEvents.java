@@ -197,7 +197,11 @@ public class PEvents {
 
                 Team.sharded.cores().each(GOOOL->GOOOL.kill());
                 Team.derelict.cores().each(GOOOL->GOOOL.kill());
-                Groups.player.each(zZzOoOvVvSvVVoO->awaitingClick.add(zZzOoOvVvSvVVoO));
+                for(Player p : Groups.player) {
+                    if(awaitingClick.contains(p))
+                        awaitingClick.remove(p);
+                    awaitingClick.add(p);
+                }
                 if(GameOverWhen != null)
                     GameOverWhen.cancel();
                 GameStartWhen = System.currentTimeMillis();
