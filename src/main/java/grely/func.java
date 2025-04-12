@@ -138,18 +138,4 @@ public class func {
             players.add(owner);
         }
     }
-
-    @Getter
-    @Setter
-    static class ReqData {
-        Team team;
-        Player owner;
-        Player requester;
-
-        ReqData(Player o, Player r) {
-            this.team=o.team();
-            this.owner=o;
-            this.requester=r;
-        }
-    }
 }

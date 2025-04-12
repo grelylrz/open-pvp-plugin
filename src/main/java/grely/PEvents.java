@@ -113,12 +113,12 @@ public class PEvents {
                 Log.debug("[TapEvent]Tile is null!");
                 return;
             }
+            if(!awaitingClick.contains(e.player))
+                return;
             Threads.daemon(()->{
                 Log.debug("Thread started!");
                 Player player = e.player;
                 Tile t = e.tile;
-                if(!awaitingClick.contains(player))
-                    return;
                 if(t.block() != Blocks.air) {
                     player.sendMessage("[scarlet]На этом месте расположен [white]" + t.block().emoji());
                     return;
