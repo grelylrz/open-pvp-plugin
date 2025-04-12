@@ -51,7 +51,7 @@ public class PEvents {
                         t.setNet(Blocks.coreShard, e.team, 1);
                         // Log.debug("Setted");
                     } else {
-                        Call.label("[scarlet]Рядом ядро команды " + core.team.coloredName(), 1f, t.x, t.y);
+                        Call.label("[scarlet]Рядом ядро команды " + core.team.coloredName(), 1f, t.x*8, t.y*8);
                     }
                 } else {
                     Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
