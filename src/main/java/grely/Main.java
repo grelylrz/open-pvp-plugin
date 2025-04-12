@@ -32,6 +32,11 @@ public class Main extends Plugin {
                 Call.setHudText("[sky]До конца игры осталось: " + minutes + " минут " + seconds + " секунд.");
             }
         }, 0, 1);
+        Timer.schedule(()->{
+            playerTeams.each(t->{
+                t.getTeam().data().unitCap = func.getCap(t.getTeam());
+            });
+        }, 0, 15);
     }
 
     @Override

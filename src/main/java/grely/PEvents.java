@@ -60,9 +60,7 @@ public class PEvents {
                     Log.debug("[BlockBuildEnvEvent]Tile/build is null");
                     return;
                 }
-                if(e.tile.build.block == Blocks.coreFoundation || e.tile.build.block == Blocks.coreNucleus)
-                    e.team.data().unitCap = getCap(e.team);
-            }, 1);
+            }, 1.5f);
         });
 
         // Это уже конечное подключение после загрузки мира.
@@ -185,20 +183,20 @@ public class PEvents {
                     Log.info("Вы можете не ставить режим пвп вручную!");
                 rules.canGameOver = false;
                 rules.modeName = "OpenPvP";
-                rules.enemyCoreBuildRadius = 200;
-                rules.unitCapVariable = false; // Whether cores add to unit limit
+                rules.enemyCoreBuildRadius = 65*8;
+                rules.unitCapVariable = true; // Whether cores add to unit limit
                 rules.unitCap = 32;
                 rules.waves = false;
                 rules.bannedBlocks.add(Blocks.coreCitadel);
                 rules.bannedBlocks.add(Blocks.coreBastion);
                 rules.bannedBlocks.add(Blocks.coreAcropolis);
-                rules.pvpAutoPause = true;
+                rules.pvpAutoPause = false;
+                rules.pvp = true;
                 rules.infiniteResources = false;
                 rules.possessionAllowed = true;
                 rules.unitBuildSpeedMultiplier = 0.33f;
                 Vars.state.rules = rules.copy();
                 Call.setRules(Vars.state.rules);
-
                 clearData();
 
                 Team.sharded.cores().each(GOOOL->GOOOL.kill());
