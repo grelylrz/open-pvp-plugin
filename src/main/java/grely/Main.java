@@ -45,6 +45,8 @@ public class Main extends Plugin {
         handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
             if(player.team() != Team.derelict) {
                 playerTeams.remove(playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == player.team()));
+                if(Groups.player.size() == 2)
+                    gameStarted = false;
                 player.unit().kill();
                 Groups.build.each(b -> {
                     if (b.team == player.team())
