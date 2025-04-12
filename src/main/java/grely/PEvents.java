@@ -56,10 +56,6 @@ public class PEvents {
                 } else {
                     Log.debug("[BlockBuildEnvEvent]Team is der. | breaking | block not vault");
                 }
-                if(e.tile == null /*How?*/ || e.tile.build == null) {
-                    Log.debug("[BlockBuildEnvEvent]Tile/build is null");
-                    return;
-                }
             }, 1.5f);
         });
 
