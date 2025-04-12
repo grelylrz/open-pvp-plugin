@@ -171,7 +171,7 @@ public class PEvents {
                 }
             });
             if (playerTeams.size < 2 && gameStarted) {
-                Call.sendMessage(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam().coloredName() + "[green]wins!");
+                Call.sendMessage(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam().coloredName() + " [green]wins!");
                 Events.fire(new EventType.GameOverEvent(playerTeams.find(eb -> eb.getTeam().cores() != null).getTeam()));
                 gameStarted = false;
             }
