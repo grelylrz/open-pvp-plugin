@@ -19,7 +19,7 @@ import static main.java.grely.PVars.*;
 import static main.java.grely.func.*;
 
 public class PEvents {
-    public static int coreProtectRad = 65;
+    public static int coreProtectRad = 114;
     public static void initEvents() {
         Log.info("Loading events.");
         Events.on(EventType.BlockBuildEndEvent.class, e -> {
