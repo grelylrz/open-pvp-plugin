@@ -44,7 +44,7 @@ public class Main extends Plugin {
         handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) -> {
             if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build != null)
                 if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build.team == player.team())
-                    Call.logicExplosion(player.team() == Team.crux ? Team.sharded : Team.crux, player.x, player.y, 1f, 999999f, false, true, false);
+                    Call.logicExplosion(player.team() == Team.crux ? Team.sharded : Team.crux, player.x/8, player.y/8, 1f, 999999f, false, true, false);
         });
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
         handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
