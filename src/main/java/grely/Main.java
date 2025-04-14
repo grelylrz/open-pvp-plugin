@@ -42,7 +42,7 @@ public class Main extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
     	handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) ->{
-            if(Vars.world.tile(player.x.8, player.y/8).build != null)
+            if(Vars.world.tile(player/x.8, player.y/8).build != null)
                 if(Vars.world.tile(player.x/8, player.y/8).build == player.team())
                     Call.logicExplosion(Team.derelict, player.x, player.y, 1, 999999, false, true, false);
     	});
