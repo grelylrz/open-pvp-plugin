@@ -42,12 +42,9 @@ public class Main extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
     	handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) ->{
-    		int px = player.x;
-    		int py = player.y;
-    		Team pteam = player.team();
-    		if(Vars.world.tile(px, py) != null && Vars.world.tile(px, py) != Blocks.air && Vars.world.tile(px, py).team() == pteam) {
-    			Vars.world.tile(px, py).setNet(Blocks.air);
-    		}
+            if(Vars.world.tile(player.x.8, player.y/8).build != null)
+                if(Vars.world.tile(player.x.8, player.y/8).build == player.team())
+                    Call.logicExplosion(Team.derelict, player.x, player.y, 1, 999999, false, true, false);
     	});
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
         handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
