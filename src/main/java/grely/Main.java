@@ -2,6 +2,7 @@ package main.java.grely;
 
 import arc.util.*;
 import mindustry.*;
+import mindustry.content.Blocks;
 import mindustry.game.Team;
 import mindustry.gen.Call;
 import mindustry.gen.Groups;
@@ -44,7 +45,7 @@ public class Main extends Plugin {
         handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) -> {
             if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build != null)
                 if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build.team == player.team())
-                    Call.logicExplosion(player.team() == Team.crux ? Team.sharded : Team.crux, player.x/8, player.y/8, 1f, 999999f, false, true, false);
+                    Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).setNet(Blocks.air);
         });
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
         handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
