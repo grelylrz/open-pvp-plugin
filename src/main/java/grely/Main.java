@@ -41,12 +41,11 @@ public class Main extends Plugin {
 
     @Override
     public void registerClientCommands(CommandHandler handler) {
-    	handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) -> {
-    if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build != null)
-        if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build.team == player.team())
-            Call.logicExplosion(Team.derelict, player.x, player.y, 1, 999999, false, true, false);
-});
-
+        handler.<Player>register("destroy", "Уничтожить блок под игроком.", (args, player) -> {
+            if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build != null)
+                if (Vars.world.tile((int)(player.x / 8f), (int)(player.y / 8f)).build.team == player.team())
+                    Call.logicExplosion(player.team() == Team.crux ? Team.sharded : Team.crux, player.x, player.y, 1f, 999999f, false, true, false);
+        });
         handler.<Player>register("teams", "Посмотреть занятые команды.", (args, player) -> playerTeams.each(t->player.sendMessage(t.getTeam().coloredName())));
         handler.<Player>register("spectate", "Перейти в серую команду.", (args, player) ->{
             if(player.team() != Team.derelict) {
