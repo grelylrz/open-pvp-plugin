@@ -2,46 +2,45 @@ name: Java CI
 
 on:
   push:
+    branches:
+      - '**'
     tags:
       - 'v*'
   pull_request:
-  push:
-    branches:
-      - '**'
 
 jobs:
   buildJar:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: 17
-        distribution: temurin
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
 
-    - name: Build plugin jar
-      run: ./gradlew jar
+      - name: Build plugin jar
+        run: ./gradlew jar
 
-    - name: Upload built jar as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ github.event.repository.name }}
-        path: build/libs/*.jar
+      - name: Upload built jar as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}
+          path: build/libs/*.jar
 
-    - name: Create GitHub Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        name: Release ${{ github.ref_name }}
-        tag_name: ${{ github.ref_name }}
-        body: |
-          Автоматический релиз для тега ${{ github.ref_name }}.
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          body: |
+            Автоматический релиз для тега ${{ github.ref_name }}.
 
-    - name: Upload jar to release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/libs/*.jar
+      - name: Upload jar to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/libs/*.jar
