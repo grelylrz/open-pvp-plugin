@@ -28,6 +28,14 @@ public class func {
         });
         return ret;
     }
+    public static Seq<Building> getCores(Team team) {
+        Seq<Building> ret = new Seq<>();
+        Groups.build.each(b -> {
+            if((b.block == Blocks.coreShard || b.block == Blocks.coreAcropolis || b.block == Blocks.coreBastion || b.block == Blocks.coreCitadel || b.block == Blocks.coreFoundation || b.block == Blocks.coreNucleus) && b.team() == team)
+                ret.add(b);
+        });
+        return ret;
+    }
     public static void displayCores() {
         ObjectIntMap<Team> teamCores = new ObjectIntMap<>();
 

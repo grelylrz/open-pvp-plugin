@@ -19,7 +19,7 @@ import static main.java.grely.PVars.*;
 import static main.java.grely.func.*;
 
 public class PEvents {
-    public static int coreProtectRad = 114;
+    public static int coreProtectRad = 160;
     public static void initEvents() {
         Log.info("Loading events.");
         Events.on(EventType.BlockBuildEndEvent.class, e -> {
@@ -164,6 +164,22 @@ public class PEvents {
                     p.sendMessage("[scarlet]Вы проиграли!");
                     if (p.unit() != null)
                         p.unit().kill();
+                }
+                if(p.team().core() != null && p.team() != Team.derelict) {
+                    Building core = getCores(p.team()).find(e->e.block()==Blocks.coreNucleus);
+                    if(core == null) {
+                        TeamDat myaah = playerTeams.find(SVOGOYDA -> SVOGOYDA.getTeam() == p.team());
+                        if(myaah != null)
+                            playerTeams.remove(myaah);
+                        Groups.build.each(b -> {
+                            if (b.team == p.team())
+                                b.kill();
+                        });
+                        p.team(Team.derelict);
+                        p.sendMessage("[scarlet]Вы проиграли!");
+                        if (p.unit() != null)
+                            p.unit().kill();
+                    }
                 }
             });
             if (playerTeams.size < 2 && gameStarted) {
