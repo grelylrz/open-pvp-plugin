@@ -63,6 +63,31 @@ public class Main extends Plugin {
                 player.sendMessage("[scarlet]Вы уже в серой команде!");
             }
         });
+        handler.<Player>register("yes", "<#player-id>", "Одобрить запрос на вступление", (args, player)->{
+            Player requester = Groups.player.find(p->String.valueOf(p.id).equals(args[0].replace("#", "")));
+            if(requester == null) {
+                player.sendMessage("[scarlet]Игрок не найден");
+                return;
+            }
+            if(requester.team() != Team.derelict) {
+                player.sendMessage("Извините, игрок вступил в команду "+requester.team().coloredName());
+                return;
+            }
+            joinRequest samreq = joinRequests.find(p->p.getRequester()==requester);
+            if(player.team() != samreq.getTeam()) {
+                player.sendMessage("[scarlet]Запрос отправлен не вашей команде!");
+                return;
+            }
+            if(!isOwner(player, player.team())) {
+                player.sendMessage("[scarlet]Вы не являетесь владельцем команды!");
+                return;
+            }
+            requester.team(player.team());
+            joinRequests.remove(samreq);
+            player.sendMessage("[green]Запрос одобрен!");
+            requester.sendMessage("[green]Владелец команды"+samreq.getTeam()+" одобрил запрос!");
+            awaitingClick.remove(requester);
+        });
     }
 
     @Override

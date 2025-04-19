@@ -125,7 +125,7 @@ public class PEvents {
                     } else {
                         if(req.getTeam()!=t.build.team()) {
                             joinRequests.remove(req);
-                            player.sendMessage("Если вы хотите вступить в команду нажмите на любое из их ядер еще раз.");
+                            player.sendMessage("[stat]Если вы хотите вступить в команду нажмите на любой их блок еще раз.");
                             joinRequests.add(new joinRequest(player, t.build.team()));
                             return;
                         } else if(req.getCount()==1) {
@@ -133,10 +133,13 @@ public class PEvents {
                             TeamDat dat = playerTeams.find(pt->pt.getTeam()==t.build.team());
                             dat.getOwner().sendMessage("К вам поступил запрос от "+player.coloredName()+" []на вступление в вашу команду! Пропишите /yes #player-id для одобрения!");
                             player.sendMessage("[green]Запрос отправлен!");
+                            return;
                         } else if(req.getCount()==2) {
                             player.sendMessage("[scarlet]Запрос уже отправлен!");
+                            return;
                         } else {
                             player.sendMessage("[scarlet]Что то не так, если вы кликнули два раза, то ожидайте одобрения запроса.");
+                            return;
                         }
                     }
                 }
