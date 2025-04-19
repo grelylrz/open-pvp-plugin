@@ -162,6 +162,8 @@ public class PEvents {
                     });
                     p.team(Team.derelict);
                     p.sendMessage("[scarlet]Вы проиграли!");
+                    assert myaah != null;
+                    Call.sendMessage("Команда "+myaah.getTeam().coloredName()+" []проиграла!");
                     if (p.unit() != null)
                         p.unit().kill();
                 }
@@ -177,6 +179,8 @@ public class PEvents {
                         });
                         p.team(Team.derelict);
                         p.sendMessage("[scarlet]Вы проиграли!");
+                        assert myaah != null;
+                        Call.sendMessage("Команда "+myaah.getTeam().coloredName()+" []проиграла!");
                         if (p.unit() != null)
                             p.unit().kill();
                     }
@@ -188,45 +192,43 @@ public class PEvents {
                 gameStarted = false;
             }
         });
-        Events.on(EventType.WorldLoadEvent.class, e -> {
-            Timer.schedule(()->{
-                Rules rules = Vars.state.rules.copy();
-                if(rules.pvp)
-                    Log.info("Вы можете не ставить режим пвп вручную!");
-                rules.canGameOver = false;
-                rules.modeName = "OpenPvP";
-                rules.enemyCoreBuildRadius = 65*8;
-                rules.unitCapVariable = true; // Whether cores add to unit limit
-                rules.unitCap = 32;
-                rules.waves = false;
-                rules.bannedBlocks.add(Blocks.coreCitadel);
-                rules.bannedBlocks.add(Blocks.coreBastion);
-                rules.bannedBlocks.add(Blocks.coreAcropolis);
-                rules.pvpAutoPause = false;
-                rules.pvp = true;
-                rules.infiniteResources = false;
-                rules.possessionAllowed = true;
-                rules.unitBuildSpeedMultiplier = 0.33f;
-                Vars.state.rules = rules.copy();
-                Call.setRules(Vars.state.rules);
-                clearData();
+        Events.on(EventType.WorldLoadEvent.class, e -> Timer.schedule(()->{
+            Rules rules = Vars.state.rules.copy();
+            if(rules.pvp)
+                Log.info("Вы можете не ставить режим пвп вручную!");
+            rules.canGameOver = false;
+            rules.modeName = "OpenPvP";
+            rules.enemyCoreBuildRadius = 65*8;
+            rules.unitCapVariable = true; // Whether cores add to unit limit
+            rules.unitCap = 32;
+            rules.waves = false;
+            rules.bannedBlocks.add(Blocks.coreCitadel);
+            rules.bannedBlocks.add(Blocks.coreBastion);
+            rules.bannedBlocks.add(Blocks.coreAcropolis);
+            rules.pvpAutoPause = false;
+            rules.pvp = true;
+            rules.infiniteResources = false;
+            rules.possessionAllowed = true;
+            rules.unitBuildSpeedMultiplier = 0.33f;
+            Vars.state.rules = rules.copy();
+            Call.setRules(Vars.state.rules);
+            clearData();
 
-                Team.sharded.cores().each(GOOOL->GOOOL.kill());
-                Team.derelict.cores().each(GOOOL->GOOOL.kill());
-                for(Player p : Groups.player) {
-                    if(awaitingClick.contains(p))
-                        awaitingClick.remove(p);
-                    awaitingClick.add(p);
-                }
-                if(GameOverWhen != null)
-                    GameOverWhen.cancel();
-                GameStartWhen = System.currentTimeMillis();
-                GameOverWhen = Timer.schedule(()->{
-                    Call.sendMessage("[scarlet]Игра окончена!");
-                    displayCores();
-                    Events.fire(new EventType.GameOverEvent(Team.derelict));
-                }, 180*60);
-            }, 3);
-        });
+            Team.sharded.cores().each(Building::kill);
+            Team.derelict.cores().each(Building::kill);
+            for(Player p : Groups.player) {
+                if(awaitingClick.contains(p))
+                    awaitingClick.remove(p);
+                awaitingClick.add(p);
+            }
+            if(GameOverWhen != null)
+                GameOverWhen.cancel();
+            GameStartWhen = System.currentTimeMillis();
+            GameOverWhen = Timer.schedule(()->{
+                Call.sendMessage("[scarlet]Игра окончена!");
+                displayCores();
+                Events.fire(new EventType.GameOverEvent(Team.derelict));
+            }, 180*60);
+        }, 3));
     }
 }

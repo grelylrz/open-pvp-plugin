@@ -52,6 +52,14 @@ public class func {
         Call.infoMessage(sb.toString());
         sb.setLength(0);
     }
+    public static Seq<Player> getPlayers(Team team) {
+        Seq<Player> p = new Seq<>();
+        Groups.player.each(s->{
+            if(s.team() == team)
+                p.add(s);
+        });
+        return p;
+    }
     public static Team getTeam() {
         Random rand = new Random();
 
