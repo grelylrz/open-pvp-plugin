@@ -162,5 +162,28 @@ public class func {
             this.owner = owner;
             players.add(owner);
         }
+
+        boolean isOwner(Player p) {
+            return owner==p;
+        }
+    }
+    @Getter
+    @Setter
+    public static class joinRequest {
+        Team team;
+        Player requester;
+        int count = 1;
+
+        joinRequest(Player p, Team t) {
+            this.team=t;this.requester=p;
+        }
+
+        void increaseCount() {
+            count+=1;
+        }
+
+        Player getTeamOwner() {
+            return playerTeams.find(t->t.getTeam()==team).getOwner();
+        }
     }
 }

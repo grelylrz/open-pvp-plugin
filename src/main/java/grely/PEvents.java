@@ -115,9 +115,30 @@ public class PEvents {
                 Log.debug("Thread started!");
                 Player player = e.player;
                 Tile t = e.tile;
-                if(t.block() != Blocks.air) {
+                if(t.block() != Blocks.air && t.build != null) {
                     player.sendMessage("[scarlet]На этом месте расположен [white]" + t.block().emoji());
-                    return;
+                    joinRequest req = joinRequests.find(re->re.getRequester()==player);
+                    if(req == null) {
+                        player.sendMessage("Если вы хотите вступить в команду нажмите на любое из их ядер еще раз.");
+                        joinRequests.add(new joinRequest(player, t.build.team()));
+                        return;
+                    } else {
+                        if(req.getTeam()!=t.build.team()) {
+                            joinRequests.remove(req);
+                            player.sendMessage("Если вы хотите вступить в команду нажмите на любое из их ядер еще раз.");
+                            joinRequests.add(new joinRequest(player, t.build.team()));
+                            return;
+                        } else if(req.getCount()==1) {
+                            req.increaseCount();
+                            TeamDat dat = playerTeams.find(pt->pt.getTeam()==t.build.team());
+                            dat.getOwner().sendMessage("К вам поступил запрос от "+player.coloredName()+" []на вступление в вашу команду! Пропишите /yes #player-id для одобрения!");
+                            player.sendMessage("[green]Запрос отправлен!");
+                        } else if(req.getCount()==2) {
+                            player.sendMessage("[scarlet]Запрос уже отправлен!");
+                        } else {
+                            player.sendMessage("[scarlet]Что то не так, если вы кликнули два раза, то ожидайте одобрения запроса.");
+                        }
+                    }
                 }
                 Building core = getCores().find(b -> {
                     int bx = (int) (b.x / 8);
