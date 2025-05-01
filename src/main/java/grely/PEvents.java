@@ -111,7 +111,6 @@ public class PEvents {
             }
             if(!awaitingClick.contains(e.player))
                 return;
-            Threads.daemon(()->{
                 Log.debug("Thread started!");
                 Player player = e.player;
                 Tile t = e.tile;
@@ -164,6 +163,8 @@ public class PEvents {
                         player.sendMessage("Извините, все команды заняты...");
                         return;
                     }
+                    /*getTeam() using while cycle*/
+                    Threads.daemon(()->{
                     Team newTeam = getTeam();
                     Log.debug("Team @ found!", newTeam.name);
                     Call.effect(Fx.tapBlock, t.x*8, t.y*8, 1, Color.white);
@@ -177,10 +178,10 @@ public class PEvents {
                         playerTeams.add(new TeamDat(player, newTeam));
                     if(playerTeams.size > 1)
                         gameStarted = true;
+                    });
                 } else {
                     player.sendMessage("[scarlet]Слишком близко к ядру команды " + core.team.coloredName());
                 }
-            });
         });
         Events.run(EventType.Trigger.update, () -> {
             Groups.player.each(p -> {
