@@ -28,6 +28,13 @@ public class func {
         });
         return ret;
     }
+    public static Seq<Building> getBuild() {
+        Seq<Building> ret = new Seq<>();
+        Groups.build.each(b -> {
+            ret.add(b);
+        });
+        return ret;
+    }
     public static Seq<Building> getCores(Team team) {
         Seq<Building> ret = new Seq<>();
         Groups.build.each(b -> {

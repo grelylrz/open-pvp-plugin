@@ -150,6 +150,14 @@ public class PEvents {
                     int dy = by - t.y;
                     return dx * dx + dy * dy <= coreProtectRad * coreProtectRad;
                 });
+                if(core==null)
+                    core=getBuild().find(b->{
+                        int bx = (int) (b.x / 8);
+                        int by = (int) (b.y / 8);
+                        int dx = bx - t.x;
+                        int dy = by - t.y;
+                        return dx * dx + dy * dy <= coreProtectRad-50 * coreProtectRad-50;
+                    });
                 if(core == null) {
                     Log.debug("Finding free team...");
                     if(playerTeams.size > 255) {
