@@ -195,8 +195,8 @@ public class PEvents {
                     });
                     p.team(Team.derelict);
                     p.sendMessage("[scarlet]Вы проиграли!");
-                    assert myaah != null;
-                    Call.sendMessage("Команда "+myaah.getTeam().coloredName()+" []проиграла!");
+                    if(myaah!=null)
+                        Call.sendMessage("Команда "+myaah.getTeam().coloredName()+" []проиграла!");
                     if (p.unit() != null)
                         p.unit().kill();
                 }
