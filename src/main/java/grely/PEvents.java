@@ -130,6 +130,8 @@ public class PEvents {
                         } else if(req.getCount()==1) {
                             req.increaseCount();
                             TeamDat dat = playerTeams.find(pt->pt.getTeam()==t.build.team());
+                            if(dat == null)
+                                return;
                             dat.getOwner().sendMessage("К вам поступил запрос от "+player.coloredName()+" []на вступление в вашу команду! Пропишите /yes #player-id для одобрения!");
                             player.sendMessage("[green]Запрос отправлен!");
                             return;
